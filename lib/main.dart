@@ -7,14 +7,22 @@ void main() {
   ));
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int _bottomState = 0;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF292B2C),
       appBar: AppBar(
         backgroundColor: const Color(0xFF292B2C),
+        elevation: 0.0,
         title: const Icon(
           Icons.bar_chart_rounded,
           color: Colors.white,
@@ -50,7 +58,7 @@ class Home extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: const EdgeInsets.fromLTRB(10, 40, 10, 20),
+              margin: const EdgeInsets.fromLTRB(10, 30, 10, 20),
               child: const Row(
                 children: [
                   Expanded(
@@ -104,7 +112,7 @@ class Home extends StatelessWidget {
                             borderRadius: BorderRadius.circular(35.0),
                           ),
                           height: 170,
-                          margin: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.fromLTRB(20, 10, 20, 5),
                           child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -128,7 +136,7 @@ class Home extends StatelessWidget {
                             borderRadius: BorderRadius.circular(35.0),
                           ),
                           height: 200,
-                          margin: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.fromLTRB(20, 10, 20, 5),
                           child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -157,7 +165,7 @@ class Home extends StatelessWidget {
                             borderRadius: BorderRadius.circular(35.0),
                           ),
                           height: 220,
-                          margin: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.fromLTRB(20, 10, 20, 5),
                           child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -181,7 +189,7 @@ class Home extends StatelessWidget {
                             borderRadius: BorderRadius.circular(35),
                           ),
                           height: 200,
-                          margin: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.fromLTRB(20, 10, 20, 5),
                           child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -207,40 +215,43 @@ class Home extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _bottomState,
+        elevation: 0.0,
+        onTap: (int index) {
+          setState(() {
+            _bottomState = index;
+          });
+        },
         items: [
           const BottomNavigationBarItem(
-            backgroundColor: Color(0xFF292B2C),
             icon: Icon(
               Icons.camera_alt_outlined,
             ),
             label: '',
           ),
           const BottomNavigationBarItem(
-            backgroundColor: Color(0xFF292B2C),
             icon: Icon(
               Icons.movie_creation_outlined,
             ),
             label: '',
           ),
           const BottomNavigationBarItem(
-            backgroundColor: Color(0xFF292B2C),
             icon: Icon(
               Icons.stacked_bar_chart_outlined,
             ),
             label: '',
           ),
           const BottomNavigationBarItem(
-            backgroundColor: Color(0xFF292B2C),
             icon: Icon(
               Icons.person_2_outlined,
             ),
             label: '',
           ),
         ],
-        selectedItemColor: Color(0xFF292B2C),
-        selectedIconTheme: IconThemeData(
-          color: Colors.white,
-        ),
+        backgroundColor: const Color(0xFF292B2C),
+        selectedItemColor: const Color(0xfff1fbff),
+        unselectedItemColor: Color(0xffa2b8c3),
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }
