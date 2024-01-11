@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import './revenueList.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -17,15 +19,18 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _bottomState = 0;
   String name = "Sakthi";
-  int sales = 230;
-  double customers = 8.549;
-  int revenue = 9745;
-  double products = 1.423;
+  final Map<String, double> dataList = {
+    'sales': 230,
+    'customers': 8.549,
+    'revenue': 9745,
+    'products': 1.423
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF292B2C),
-      appBar: MyAppBar(),
+      appBar: const MyAppBar(),
       body: Container(
         decoration: const BoxDecoration(
           color: Color(0xFF292B2C),
@@ -33,7 +38,7 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             Container(
-              margin: const EdgeInsets.fromLTRB(10, 30, 10, 20),
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 20),
               child: Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -102,8 +107,8 @@ class _HomeState extends State<Home> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              const Icon(Icons.swap_vert_circle_sharp),
-                              Text('$sales' 'K',
+                              const Icon(Icons.swap_vert),
+                              Text('${dataList['sales']}' 'K',
                                   style: const TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold)),
@@ -128,8 +133,8 @@ class _HomeState extends State<Home> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              const Icon(Icons.person_2_rounded),
-                              Text('$customers' 'K',
+                              const Icon(Icons.people_rounded),
+                              Text('${dataList['customers']}' 'K',
                                   style: const TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold)),
@@ -159,7 +164,7 @@ class _HomeState extends State<Home> {
                             children: <Widget>[
                               const Icon(
                                   Icons.production_quantity_limits_rounded),
-                              Text('$products' 'K',
+                              Text('${dataList['products']}' 'K',
                                   style: const TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold)),
@@ -185,7 +190,7 @@ class _HomeState extends State<Home> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               const Icon(Icons.pie_chart_rounded),
-                              Text('\$' '$revenue',
+                              Text('\$' '${dataList['revenue']}',
                                   style: const TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold)),
@@ -256,11 +261,17 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: const Color(0xFF292B2C),
       elevation: 0.0,
-      title: const Icon(
-        Icons.bar_chart_rounded,
-        color: Colors.white,
+      title: InkWell(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: const Icon(
+          Icons.bar_chart_rounded,
+          color: Colors.white,
+        ),
       ),
       actions: [
         Padding(
@@ -297,12 +308,180 @@ class SalesRevenue extends StatefulWidget {
 }
 
 class _SalesRevenueState extends State<SalesRevenue> {
+  String time = 'Since last week';
+
+  List<revenueList> revenueData = [
+    revenueList(
+        header: 'Sales',
+        listIcon: Icons.swap_vert_circle_sharp,
+        iconBack: const Color(0xffdffafb),
+        vals: '230K'),
+    revenueList(
+        header: 'Customers',
+        listIcon: Icons.person_rounded,
+        iconBack: const Color(0xffe5e1d7),
+        vals: '8.549K'),
+    revenueList(
+        header: 'Products',
+        listIcon: Icons.production_quantity_limits_rounded,
+        iconBack: const Color(0xFFFAF6F6),
+        vals: '1.423K'),
+    revenueList(
+        header: 'Revenue',
+        listIcon: Icons.pie_chart_rounded,
+        iconBack: const Color(0xfffbdeff),
+        vals: '\$9745')
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xFF292B2C),
-      appBar: MyAppBar(),
-      body: Container(),
+    return Scaffold(
+      backgroundColor: const Color(0xFF292B2C),
+      appBar: const MyAppBar(),
+      body: Column(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+              margin: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFCCE6F5),
+                borderRadius: BorderRadius.circular(35),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: const Text('Current Value',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w600)),
+                          ),
+                          Container(
+                            child: const Text('\$432190',
+                                style: TextStyle(
+                                    fontSize: 39, fontWeight: FontWeight.w600)),
+                          ),
+                          Container(
+                            child: const Text(
+                              '+\$150,102',
+                              style: TextStyle(
+                                  fontSize: 28, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(60, 20, 10, 10),
+                        child: CircularPercentIndicator(
+                          radius: 44.0,
+                          //circularStrokeCap: CircularStrokeCap.butt,
+                          lineWidth: 13.0,
+                          animation: true,
+                          percent: 0.42,
+                          center: new Text(
+                            "+42%",
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 15.0),
+                          ),
+                          circularStrokeCap: CircularStrokeCap.round,
+                          progressColor: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                    Expanded(
+                      flex: 5,
+                      child: Container(
+                        child: const Text(
+                          'Sales in this Week',
+                          style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Container(
+                        child: const InkWell(
+                          child: Icon(Icons.arrow_upward),
+                        ),
+                      ),
+                    ),
+                  ]),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 6,
+            child: Column(children: <Widget>[
+              Container(
+                margin: const EdgeInsets.fromLTRB(10, 15, 10, 10),
+                child: const Align(
+                  alignment:
+                      Alignment.centerLeft, // Adjust the alignment as needed
+                  child: Text('Sales Revenue',
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white)),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 20, 10, 15),
+                    child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: revenueData.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            dense: true,
+                            leading: Container(
+                              margin: const EdgeInsets.all(0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Icon(
+                                revenueData[index].listIcon,
+                                color: revenueData[index].iconBack,
+                                size: 60,
+                              ),
+                            ),
+                            title: Text(revenueData[index].header,
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white)),
+                            trailing: Text(revenueData[index].vals,
+                                style: const TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white)),
+                            subtitle: Text(
+                              time,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xffc8c8c8),
+                              ),
+                            ),
+                          );
+                        })),
+              ),
+            ]),
+          ),
+        ],
+      ),
     );
   }
 }
